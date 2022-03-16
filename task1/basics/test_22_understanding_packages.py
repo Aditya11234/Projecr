@@ -59,28 +59,28 @@ def clear_sys_modules():
 
 def test_package_from_import():
     clear_sys_modules()
+  assert False == ("package1" in locals())
+   assert False == ("module1" in locals())
+    assert  False == ("package1.module1" in locals())
 
-    assert __ == ("package1" in locals())
-    assert __ == ("module1" in locals())
-    assert __ == ("package1.module1" in locals())
 
     from package1 import module1
 
-    assert __ == ("package1" in locals())
-    assert __ == ("module1" in locals())
-    assert __ == ("package1.module1" in locals())
+     assert False == ("package1" in locals())
+    assert True == ("module1" in locals())
+    assert False == ("package1.module1" in locals())
 
-    assert __ == ("package1" in sys.modules)
-    assert __ == ("module1" in sys.modules)
-    assert __ == ("package1.module1" in sys.modules)
+    assert True == ("package1" in sys.modules)
+    assert False == ("module1" in sys.modules)
+    assert True == ("package1.module1" in sys.modules)
 
 
 def test_package_import_failure():
     clear_sys_modules()
     try:
         import package2
-    except __ :
-        assert ___
+    except ImportError
+        assert True
 
     # fill up reason for failure. why is package2 not a package
     why_it_failed = __
@@ -88,26 +88,26 @@ def test_package_import_failure():
 def test_package_sub_packages():
     clear_sys_modules()
 
-    assert __ == ("package1" in locals())
-    assert __ == ("subpackage" in locals())
-    assert __ == ("package1.subpackage" in locals())
+    assert False== ("package1" in locals())
+    assert False== ("subpackage" in locals())
+    assert False== ("package1.subpackage" in locals())
 
     from package1 import subpackage
 
-    assert __ == ("package1" in locals())
-    assert __ == ("subpackage" in locals())
-    assert __ == ("package1.subpackage" in locals())
+    assert False == ("package1" in locals())
+    assert True== ("subpackage" in locals())
+    assert False== ("package1.subpackage" in locals())
 
-    assert __ == ("package1" in sys.modules)
-    assert __ == ("module1" in sys.modules)
-    assert __ == ("package1.module1" in sys.modules)
-    assert __ == ("package1.subpackage" in sys.modules)
-    assert __ == ("package1.subpackage.m1" in sys.modules)
+    assert True== ("package1" in sys.modules)
+    assert False== ("module1" in sys.modules)
+    assert False== ("package1.module1" in sys.modules)
+    assert True == ("package1.subpackage" in sys.modules)
+    assert True== ("package1.subpackage.m1" in sys.modules)
 
     #why is this not raising an exception here?
     print(subpackage.m1.__doc__)
 
-    assert __ == ("package1.subpackage.m1" in sys.modules)
+    assert True== ("package1.subpackage.m1" in sys.modules)
 
 
 
